@@ -217,13 +217,18 @@ async function main() {
     console.log(`  VERCEL_SANDBOX_BASE_SNAPSHOT_ID=${snapshot.snapshotId}`);
     console.log("then redeploy.");
   } finally {
-    if (!snapshotCreated) {
-      try {
-        await sandbox.stop();
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        console.error(`Failed to stop bootstrap sandbox: ${message}`);
-      }
+    // Always stop the source sandbox once we're done. The snapshot is already
+    // saved server-side, so keeping the source sandbox alive only burns the
+    // team's concurrency slot and CPU/memory until its timeout expires.
+    try {
+      await sandbox.stop();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(
+        snapshotCreated
+          ? `Failed to stop bootstrap sandbox after snapshot (snapshot is fine): ${message}`
+          : `Failed to stop bootstrap sandbox: ${message}`,
+      );
     }
   }
 }
