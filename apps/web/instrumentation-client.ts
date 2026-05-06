@@ -10,6 +10,9 @@ import { initBotId } from "botid/client/core";
  */
 initBotId({
   protect: [
+    // Session lifecycle endpoints (server enforces checkBotId on POST)
+    { path: "/api/sessions", method: "POST" },
+
     // AI text-generation endpoints
     { path: "/api/chat", method: "POST" },
     { path: "/api/generate-pr", method: "POST" },
