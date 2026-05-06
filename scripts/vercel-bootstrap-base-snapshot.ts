@@ -35,13 +35,12 @@ const DEFAULT_BOOTSTRAP_SANDBOX_TIMEOUT_MS = 30 * 60 * 1000;
 const DEFAULT_BOOTSTRAP_COMMAND_TIMEOUT_MS = 15 * 60 * 1000;
 
 const DEFAULT_BOOTSTRAP_COMMANDS = [
-  "sudo dnf install -y jq ripgrep",
+  "sudo dnf install -y jq",
   "curl -fsSL https://bun.sh/install | bash",
   // Make `bun` resolvable in non-interactive shells used by the agent.
   "sudo ln -sf $HOME/.bun/bin/bun /usr/local/bin/bun",
   "bun --version",
   "jq --version",
-  "rg --version",
 ];
 
 interface CliOptions {
